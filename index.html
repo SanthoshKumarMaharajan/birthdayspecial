@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Happy Birthday 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #f4a6c0;
+            --pink: #ff5c9d;
+            --gold: #e6c27a;
+            --gold2: #fff1c9;
+            --ink: #12051c;
+            --cream: #fff8fb;
+            --foil: linear-gradient(120deg,#f6dfa4 0%,#e6c27a 35%,#fff4d2 55%,#d9a85a 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html, body {
+            min-height: 100%
+        }
+
+        body {
+            font-family: 'Poppins',system-ui,sans-serif;
+            color: #fff;
+            background: var(--ink);
+            overflow-x: hidden;
+            min-height: 100vh
+        }
+
+        /* ---------- Atmosphere (all GPU-friendly) ---------- */
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(1000px 650px at 10% 5%, rgba(124,44,150,.55), transparent 60%), radial-gradient(900px 650px at 95% 95%, rgba(200,52,115,.42), transparent 60%), linear-gradient(180deg,#1b0933,#0f0418)
+        }
+
+        #stars, #floaters {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden
+        }
+
+        #floaters {
+            z-index: 1
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background: #fff;
+            opacity: .25;
+            animation: tw 4s infinite ease-in-out
+        }
+
+        @keyframes tw {
+            50% {
+                opacity: .95
+            }
+        }
+
+        .shoot {
+            position: absolute;
+            width: 110px;
+            height: 2px;
+            background: linear-gradient(90deg,transparent,#fff);
+            opacity: 0;
+            transform: rotate(28deg);
+            animation: shoot 1.3s ease-out forwards
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 0;
+                transform: translate3d(0,0,0) rotate(28deg)
+            }
+
+            15% {
+                opacity: 1
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate3d(380px,200px,0) rotate(28deg)
+            }
+        }
+
+        .fl {
+            position: absolute;
+            bottom: -50px;
+            will-change: transform,opacity;
+            opacity: 0;
+            animation: rise linear forwards
+        }
+
+        @keyframes rise {
+            10% {
+                opacity: .7
+            }
+
+            100% {
+                transform: translate3d(30px,-115vh,0);
+                opacity: 0
+            }
+        }
+
+        canvas#fx {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 80
+        }
+
+        #veil {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .32s ease;
+            background: radial-gradient(circle at 50% 50%,#2c0e48,#0b0312)
+        }
+
+            #veil.on {
+                opacity: 1
+            }
+
+        .spark {
+            position: fixed;
+            pointer-events: none;
+            z-index: 90;
+            font-size: 13px;
+            animation: sparkFade .9s forwards
+        }
+
+        @keyframes sparkFade {
+            to {
+                transform: translateY(-34px) scale(.2);
+                opacity: 0
+            }
+        }
+
+        #steps {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 60;
+            display: flex;
+            gap: 7px
+        }
+
+            #steps i {
+                width: 22px;
+                height: 3px;
+                border-radius: 3px;
+                background: rgba(255,255,255,.18);
+                transition: background .4s,width .4s
+            }
+
+                #steps i.on {
+                    background: var(--rose)
+                }
+
+                #steps i.cur {
+                    width: 38px;
+                    background: var(--gold)
+                }
+
+        /* music button + equaliser */
+        .musicbtn {
+            position: fixed;
+            top: 8px;
+            right: 10px;
+            z-index: 100;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.28);
+            color: #fff;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .eq {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 16px
+        }
+
+            .eq i {
+                display: block;
+                width: 3px;
+                height: 100%;
+                background: var(--gold);
+                border-radius: 2px;
+                transform-origin: bottom;
+                animation: eq 1s infinite ease-in-out
+            }
+
+                .eq i:nth-child(2) {
+                    animation-delay: .25s
+                }
+
+                .eq i:nth-child(3) {
+                    animation-delay: .5s
+                }
+
+                .eq i:nth-child(4) {
+                    animation-delay: .12s
+                }
+
+        @keyframes eq {
+            0%,100% {
+                transform: scaleY(.25)
+            }
+
+            50% {
+                transform: scaleY(1)
+            }
+        }
+
+        .musicbtn.off .eq i {
+            animation: none;
+            transform: scaleY(.2);
+            background: #bbb
+        }
+
+        /* ---------- Screens ---------- */
+        .screen {
+            display: none;
+            position: relative;
+            z-index: 5;
+            min-height: 100vh;
+            padding: 58px 18px 38px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center
+        }
+
+            .screen.active {
+                display: flex;
+                animation: enter .8s cubic-bezier(.2,.8,.2,1) both
+            }
+
+        @keyframes enter {
+            from {
+                opacity: 0;
+                transform: translateY(26px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .eyebrow {
+            font-size: .7rem;
+            letter-spacing: .38em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            opacity: .95
+        }
+
+        h1 {
+            font-family: 'Playfair Display',serif;
+            font-size: clamp(2.1rem,8vw,3.6rem);
+            line-height: 1.15;
+            font-weight: 700
+        }
+
+        h2 {
+            font-family: 'Playfair Display',serif;
+            font-size: clamp(1.6rem,5.5vw,2.4rem);
+            font-weight: 600;
+            margin-bottom: 6px
+        }
+
+        .foil {
+            background: var(--foil);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .script {
+            font-family: 'Dancing Script',cursive
+        }
+
+        .gold {
+            color: var(--gold)
+        }
+
+        .sub {
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.75;
+            opacity: .9;
+            max-width: 470px;
+            margin: 0 auto 20px
+        }
+
+        .divider {
+            width: 70px;
+            height: 1px;
+            background: linear-gradient(90deg,transparent,var(--gold),transparent);
+            margin: 6px auto 16px
+        }
+
+        .btn {
+            background: linear-gradient(135deg,#ff5c9d,#ff8a65);
+            color: #fff;
+            border: 0;
+            border-radius: 50px;
+            padding: 14px 34px;
+            font: 500 1rem 'Poppins',sans-serif;
+            letter-spacing: .4px;
+            cursor: pointer;
+            box-shadow: 0 8px 26px rgba(255,92,157,.42);
+            transition: transform .2s
+        }
+
+            .btn:hover {
+                transform: translateY(-2px)
+            }
+
+            .btn:active {
+                transform: scale(.97)
+            }
+
+            .btn:disabled {
+                opacity: .35;
+                cursor: not-allowed;
+                transform: none
+            }
+
+        .ghost {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.35);
+            color: #fff;
+            border-radius: 50px;
+            padding: 10px 22px;
+            font: 400 .88rem 'Poppins',sans-serif;
+            cursor: pointer;
+            margin-top: 14px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        /* ---------- 1 : Envelope ---------- */
+        .logoHeart {
+            width: 54px;
+            height: auto;
+            margin-bottom: 6px;
+            animation: beat 1.5s infinite;
+            filter: drop-shadow(0 0 14px rgba(255,92,157,.7))
+        }
+
+        @keyframes beat {
+            0%,100% {
+                transform: scale(1)
+            }
+
+            15% {
+                transform: scale(1.2)
+            }
+
+            30% {
+                transform: scale(1)
+            }
+
+            45% {
+                transform: scale(1.12)
+            }
+        }
+
+        .env {
+            position: relative;
+            width: min(290px,78vw);
+            height: 190px;
+            margin: 22px auto 12px;
+            cursor: pointer;
+            animation: bob 3.4s ease-in-out infinite
+        }
+
+        @keyframes bob {
+            50% {
+                transform: translateY(-10px)
+            }
+        }
+
+        .env .body {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg,#f7b6cf,#ee7fae);
+            border-radius: 10px;
+            box-shadow: 0 18px 40px rgba(0,0,0,.5)
+        }
+
+        .env .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 105px;
+            background: linear-gradient(160deg,#f9a3c4,#e9679f);
+            clip-path: polygon(0 0,100% 0,50% 100%);
+            transform-origin: top;
+            transition: transform .8s;
+            z-index: 3
+        }
+
+        .env .paper {
+            position: absolute;
+            left: 8%;
+            width: 84%;
+            height: 140px;
+            bottom: 10px;
+            background: var(--cream);
+            border-radius: 8px;
+            z-index: 2;
+            transition: transform 1s .5s;
+            color: #a01660;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Dancing Script',cursive;
+            font-size: 1.7rem;
+            padding: 8px
+        }
+
+        .seal {
+            position: absolute;
+            top: 76px;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: -25px;
+            border-radius: 50%;
+            z-index: 4;
+            background: radial-gradient(circle at 35% 30%,#ff7a98,#b3123f 72%);
+            box-shadow: 0 5px 12px rgba(0,0,0,.45),inset 0 -3px 6px rgba(0,0,0,.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffd9e2;
+            font-size: 1.3rem;
+            animation: beat 1.5s infinite;
+            transition: opacity .4s
+        }
+
+        .env.open {
+            animation: none
+        }
+
+            .env.open .flap {
+                transform: rotateX(180deg);
+                z-index: 1
+            }
+
+            .env.open .paper {
+                transform: translateY(-100px)
+            }
+
+            .env.open .seal {
+                opacity: 0
+            }
+
+        .tapHint {
+            font-size: .85rem;
+            letter-spacing: .12em;
+            opacity: .8;
+            animation: blink 1.7s infinite
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: .3
+            }
+        }
+
+        .bday span {
+            display: inline-block;
+            animation: bounce 2.4s infinite ease-in-out
+        }
+
+        @keyframes bounce {
+            0%,100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-9px)
+            }
+        }
+
+        .counter {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0 8px
+        }
+
+            .counter div {
+                background: rgba(255,255,255,.08);
+                border: 1px solid rgba(230,194,122,.35);
+                border-radius: 14px;
+                padding: 10px 0;
+                width: 74px
+            }
+
+            .counter b {
+                display: block;
+                font-family: 'Playfair Display',serif;
+                font-size: 1.5rem;
+                color: var(--gold)
+            }
+
+            .counter small {
+                font-size: .62rem;
+                letter-spacing: .18em;
+                text-transform: uppercase;
+                opacity: .8
+            }
+
+        /* ---------- 2 : Memories ---------- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+            gap: 26px;
+            width: 100%;
+            max-width: 920px;
+            margin: 20px 0 26px
+        }
+
+        .card {
+            perspective: 900px;
+            height: 276px;
+            cursor: pointer
+        }
+
+        .inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform .85s cubic-bezier(.4,.2,.2,1);
+            transform-style: preserve-3d
+        }
+
+        .card:nth-child(odd) .inner {
+            rotate: -2deg
+        }
+
+        .card:nth-child(even) .inner {
+            rotate: 2deg
+        }
+
+        .card.flipped .inner {
+            transform: rotateY(180deg)
+        }
+
+        .face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 6px;
+            padding: 12px;
+            box-shadow: 0 12px 28px rgba(0,0,0,.45);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .front {
+            background: #fff;
+            color: #8f1a56
+        }
+
+            .front::before {
+                content: "";
+                position: absolute;
+                top: -9px;
+                left: 50%;
+                width: 64px;
+                height: 20px;
+                margin-left: -32px;
+                background: rgba(230,194,122,.75);
+                transform: rotate(-3deg);
+                border-radius: 2px
+            }
+
+            .front .pic {
+                width: 100%;
+                flex: 1;
+                border-radius: 3px;
+                background: linear-gradient(135deg,#f6a5c6,#b88af0);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3.2rem;
+                overflow: hidden
+            }
+
+                .front .pic img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover
+                }
+
+            .front .cap {
+                font-family: 'Dancing Script',cursive;
+                font-size: 1.45rem;
+                margin-top: 8px
+            }
+
+        .back {
+            background: #fff4f9;
+            color: #512043;
+            transform: rotateY(180deg);
+            font-size: .92rem;
+            line-height: 1.6
+        }
+
+            .back h3 {
+                font-family: 'Dancing Script',cursive;
+                font-size: 1.7rem;
+                color: #d81b60;
+                margin-bottom: 6px
+            }
+
+        /* ---------- 3 : Catch ---------- */
+        #gameArea {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+            height: 54vh;
+            min-height: 320px;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(230,194,122,.3);
+            border-radius: 22px;
+            overflow: hidden;
+            margin: 12px 0;
+            touch-action: manipulation
+        }
+
+        .faller {
+            position: absolute;
+            top: -56px;
+            font-size: 2.3rem;
+            cursor: pointer;
+            user-select: none;
+            will-change: transform;
+            animation: fall linear forwards
+        }
+
+        @keyframes fall {
+            to {
+                transform: translate3d(0,70vh,0)
+            }
+        }
+
+        .pop {
+            animation: pop .3s forwards !important
+        }
+
+        @keyframes pop {
+            to {
+                transform: scale(2);
+                opacity: 0
+            }
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 620px;
+            height: 8px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.14);
+            overflow: hidden
+        }
+
+            .bar span {
+                display: block;
+                height: 100%;
+                width: 0;
+                background: linear-gradient(90deg,var(--gold),var(--pink));
+                transition: width .3s
+            }
+
+        .hud {
+            font-size: 1.02rem;
+            margin: 6px 0
+        }
+
+        /* ---------- 4 : Match ---------- */
+        .mgrid {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 10px;
+            width: min(380px,92vw);
+            margin: 12px 0 18px
+        }
+
+        .mcard {
+            aspect-ratio: 1;
+            perspective: 500px;
+            cursor: pointer
+        }
+
+            .mcard .in {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transition: transform .45s;
+                transform-style: preserve-3d
+            }
+
+            .mcard.up .in {
+                transform: rotateY(180deg)
+            }
+
+        .mf {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.5rem,7vw,2.2rem);
+            box-shadow: 0 4px 12px rgba(0,0,0,.35)
+        }
+
+            .mf.top {
+                background: linear-gradient(135deg,var(--pink),#9c4dcc);
+                border: 1px solid rgba(255,255,255,.25)
+            }
+
+            .mf.bot {
+                background: #fff;
+                transform: rotateY(180deg)
+            }
+
+        .mcard.done .mf.bot {
+            background: #ffe3ef;
+            box-shadow: 0 0 16px rgba(255,92,157,.8)
+        }
+
+        /* ---------- 5 : Constellation ---------- */
+        #sky {
+            width: min(380px,92vw);
+            height: auto;
+            overflow: visible;
+            margin: 4px 0 6px
+        }
+
+            #sky .bgstar {
+                fill: #fff;
+                opacity: .35
+            }
+
+            #sky .ln {
+                stroke: var(--gold);
+                stroke-width: 1.6;
+                stroke-linecap: round;
+                transition: stroke-dashoffset .5s ease;
+                filter: drop-shadow(0 0 3px rgba(230,194,122,.9))
+            }
+
+            #sky .fillHeart {
+                fill: rgba(255,120,175,.2);
+                opacity: 0;
+                transition: opacity 1.2s
+            }
+
+                #sky .fillHeart.on {
+                    opacity: 1
+                }
+
+            #sky .st {
+                cursor: pointer
+            }
+
+                #sky .st .core {
+                    fill: var(--gold2);
+                    filter: drop-shadow(0 0 5px rgba(255,230,160,.95))
+                }
+
+                #sky .st .num {
+                    fill: #3a1450;
+                    font: 700 8.5px 'Poppins',sans-serif;
+                    text-anchor: middle;
+                    dominant-baseline: central;
+                    pointer-events: none
+                }
+
+                #sky .st .ring {
+                    fill: none;
+                    stroke: var(--pink);
+                    stroke-width: 1.4;
+                    opacity: 0;
+                    transform-box: fill-box;
+                    transform-origin: center
+                }
+
+                #sky .st.next .ring {
+                    opacity: 1;
+                    animation: ringPulse 1.4s infinite
+                }
+
+                #sky .st.done .core {
+                    fill: var(--pink)
+                }
+
+                #sky .st.done .num {
+                    fill: #fff
+                }
+
+        @keyframes ringPulse {
+            0% {
+                transform: scale(.8);
+                opacity: 1
+            }
+
+            100% {
+                transform: scale(1.9);
+                opacity: 0
+            }
+        }
+
+        #sky.shake {
+            animation: shake .35s
+        }
+
+        @keyframes shake {
+            25% {
+                transform: translateX(-6px)
+            }
+
+            75% {
+                transform: translateX(6px)
+            }
+        }
+
+        /* ---------- 6 : Cake ---------- */
+        .cakeWrap {
+            position: relative;
+            width: 240px;
+            height: 250px;
+            margin: 14px auto 10px
+        }
+
+            .cakeWrap::before {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: -30px;
+                width: 300px;
+                height: 300px;
+                margin-left: -150px;
+                border-radius: 50%;
+                background: radial-gradient(circle,rgba(255,190,90,.28),transparent 65%);
+                transition: opacity 1s
+            }
+
+            .cakeWrap.out::before {
+                opacity: 0
+            }
+
+        .plate {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 220px;
+            height: 12px;
+            background: #eee;
+            border-radius: 50%;
+            box-shadow: 0 6px 12px rgba(0,0,0,.45)
+        }
+
+        .layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 12px;
+            box-shadow: inset 0 -9px 0 rgba(0,0,0,.12);
+            overflow: hidden
+        }
+
+            .layer::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                height: 15px;
+                background: rgba(255,255,255,.92);
+                border-radius: 0 0 14px 14px
+            }
+
+        .l1 {
+            bottom: 8px;
+            width: 210px;
+            height: 70px;
+            background: linear-gradient(#f68db4,#ee6aa0)
+        }
+
+        .l2 {
+            bottom: 78px;
+            width: 155px;
+            height: 60px;
+            background: linear-gradient(#ffc2d9,#ffa3c6)
+        }
+
+        .l3 {
+            bottom: 138px;
+            width: 100px;
+            height: 46px;
+            background: linear-gradient(#fff,#ffd9e8)
+        }
+
+        .l1::after {
+            content: "";
+            position: absolute;
+            inset: 18px 0 0;
+            background: radial-gradient(circle,#fff 2px,transparent 2.5px) 0 0/26px 20px, radial-gradient(circle,#ffd166 2px,transparent 2.5px) 13px 10px/26px 20px;
+            opacity: .75
+        }
+
+        .candles {
+            position: absolute;
+            bottom: 184px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 18px
+        }
+
+        .candle {
+            position: relative;
+            width: 10px;
+            height: 38px;
+            background: repeating-linear-gradient(45deg,#fff,#fff 6px,#ff5c9d 6px,#ff5c9d 12px);
+            border-radius: 3px
+        }
+
+        .flame {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            margin-left: -8px;
+            width: 16px;
+            height: 26px;
+            background: radial-gradient(circle at 50% 70%,#fff6b0,#ffb300 60%,transparent 70%);
+            border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
+            animation: flick .2s infinite alternate;
+            box-shadow: 0 0 14px 4px rgba(255,179,0,.5)
+        }
+
+            .flame.off {
+                display: none
+            }
+
+        @keyframes flick {
+            to {
+                transform: scale(1.1) rotate(4deg)
+            }
+        }
+
+        .smoke {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            margin-left: -6px;
+            border-radius: 50%;
+            background: radial-gradient(circle,rgba(255,255,255,.55),transparent 70%);
+            animation: smoke 2.4s ease-out forwards
+        }
+
+        @keyframes smoke {
+            to {
+                transform: translate3d(8px,-80px,0) scale(3.4);
+                opacity: 0
+            }
+        }
+
+        .balloon {
+            position: fixed;
+            bottom: -130px;
+            width: 52px;
+            height: 64px;
+            border-radius: 50%;
+            z-index: 6;
+            will-change: transform;
+            animation: bUp linear forwards
+        }
+
+            .balloon::after {
+                content: "";
+                position: absolute;
+                top: 64px;
+                left: 50%;
+                width: 2px;
+                height: 60px;
+                background: rgba(255,255,255,.5)
+            }
+
+        @keyframes bUp {
+            to {
+                transform: translate3d(30px,-135vh,0)
+            }
+        }
+
+        /* ---------- 7 : Finale ---------- */
+        .letter {
+            background: linear-gradient(180deg,#fffafc,#fff1f6);
+            color: #4a1942;
+            border-radius: 18px;
+            padding: 28px 24px;
+            max-width: 580px;
+            width: 100%;
+            box-shadow: 0 18px 46px rgba(0,0,0,.5);
+            line-height: 1.85;
+            text-align: left;
+            font-size: 1.02rem;
+            min-height: 110px;
+            border: 1px solid rgba(230,194,122,.6)
+        }
+
+            .letter .sign {
+                font-family: 'Dancing Script',cursive;
+                font-size: 1.9rem;
+                color: #d81b60;
+                text-align: right;
+                margin-top: 10px
+            }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: #d81b60;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink .8s infinite
+        }
+
+        .reasons {
+            list-style: none;
+            max-width: 520px;
+            width: 100%;
+            margin: 24px 0 6px
+        }
+
+            .reasons li {
+                background: rgba(255,255,255,.07);
+                border: 1px solid rgba(230,194,122,.28);
+                border-radius: 12px;
+                padding: 11px 16px;
+                margin: 9px 0;
+                text-align: left;
+                opacity: 0;
+                transform: translateX(-30px);
+                animation: slideIn .6s forwards
+            }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .photoWrap {
+            margin: 34px 0 8px;
+            animation: enter 1s both
+        }
+
+        .frame {
+            position: relative;
+            background: #fff;
+            padding: 12px 12px 14px;
+            width: min(320px,82vw);
+            border-radius: 4px;
+            rotate: -2deg;
+            box-shadow: 0 18px 44px rgba(0,0,0,.55);
+            margin: 0 auto
+        }
+
+            .frame::after {
+                content: "";
+                position: absolute;
+                inset: -6px;
+                border-radius: 8px;
+                box-shadow: 0 0 44px 8px rgba(255,140,190,.6);
+                opacity: .5;
+                z-index: -1;
+                animation: glow 3.2s ease-in-out infinite
+            }
+
+        @keyframes glow {
+            50% {
+                opacity: 1
+            }
+        }
+
+        .frame::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            width: 70px;
+            height: 22px;
+            margin-left: -35px;
+            background: rgba(230,194,122,.8);
+            transform: rotate(-3deg);
+            border-radius: 2px
+        }
+
+        .imgBox {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: #f3e1ea;
+            overflow: hidden;
+            position: relative;
+            border-radius: 2px
+        }
+
+            .imgBox img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                animation: kb 14s ease-in-out infinite alternate
+            }
+
+        @keyframes kb {
+            to {
+                transform: scale(1.09)
+            }
+        }
+
+        .pick {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a01660
+        }
+
+        .photoCap {
+            font-family: 'Dancing Script',cursive;
+            font-size: 1.6rem;
+            color: #8f1a56;
+            margin-top: 10px
+        }
+
+        .bigLove {
+            font-family: 'Dancing Script',cursive;
+            font-size: clamp(2.3rem,8.5vw,3.6rem);
+            margin: 28px 0 12px;
+            background: var(--foil);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 16px rgba(255,92,157,.45))
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            * {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="bg"></div>
+    <div id="stars"></div>
+    <div id="floaters"></div>
+    <canvas id="fx"></canvas>
+    <div id="veil"></div>
+    <div id="steps"></div>
+    <button class="musicbtn" id="musicBtn" title="Music on / off"><span class="eq"><i></i><i></i><i></i><i></i></span></button>
+
+    <!-- 1 : Envelope -->
+    <section class="screen active" id="s1">
+        <svg class="logoHeart" viewBox="0 0 32 29.6"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff86b4" /><stop offset="1" stop-color="#ff3d81" /></linearGradient></defs><path fill="url(#hg)" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-11.8,16-21.2C32,3.8,28.2,0,23.6,0z" /></svg>
+        <p class="eyebrow">A surprise for you</p>
+        <div class="env" id="env">
+            <div class="body"></div><div class="paper" id="paperTxt"></div><div class="flap"></div><div class="seal">♥</div>
+        </div>
+        <p class="tapHint" id="tapHint">TAP THE ENVELOPE</p>
+        <div id="introBox" class="hidden">
+            <p class="eyebrow">Today is all about you</p>
+            <h1 class="foil bday" id="bday"></h1>
+            <h2 class="script gold" id="nameSpot" style="margin-top:8px"></h2>
+            <div class="divider"></div>
+            <div class="counter hidden" id="counter">
+                <div><b id="cD">0</b><small>Days</small></div><div><b id="cH">0</b><small>Hours</small></div>
+                <div><b id="cM">0</b><small>Mins</small></div><div><b id="cS">0</b><small>Secs</small></div>
+            </div>
+            <p class="sub" id="counterTxt"></p>
+            <button class="btn" onclick="go('s2')">Begin Our Journey</button>
+        </div>
+    </section>
+
+    <!-- 2 : Memories -->
+    <section class="screen" id="s2">
+        <p class="eyebrow">Chapter one</p>
+        <h2>Our Beautiful Memories</h2>
+        <div class="divider"></div>
+        <p class="sub">Tap each polaroid to read it &nbsp;·&nbsp; <b><span id="opened">0</span></b> / <span id="totalMem"></span></p>
+        <div class="grid" id="memGrid"></div>
+        <button class="btn" id="toGame" disabled onclick="go('s3');startGame()">Next: Catch My Heart</button>
+    </section>
+
+    <!-- 3 : Catch -->
+    <section class="screen" id="s3">
+        <p class="eyebrow">Chapter two</p>
+        <h2>Catch My Heart 💘</h2>
+        <p class="sub" style="margin-bottom:2px">Tap the falling hearts — catch <b id="goalTxt"></b>. Avoid the 💔!</p>
+        <div class="hud">Hearts: <b id="score">0</b></div>
+        <div class="bar"><span id="barFill"></span></div>
+        <div id="gameArea"></div>
+        <button class="btn hidden" id="toMatch" onclick="go('s4');startMatch()">Next Game</button>
+    </section>
+
+    <!-- 4 : Match -->
+    <section class="screen" id="s4">
+        <p class="eyebrow">Chapter three</p>
+        <h2>Find Our Pairs 🧩</h2>
+        <p class="sub" style="margin-bottom:0">Match every pair — just like we match each other.</p>
+        <div class="hud">Moves: <b id="moves">0</b></div>
+        <div class="mgrid" id="mgrid"></div>
+        <button class="btn hidden" id="toStars" onclick="go('s5')">Next: Our Constellation ✨</button>
+    </section>
+
+    <!-- 5 : Constellation -->
+    <section class="screen" id="s5">
+        <p class="eyebrow">Chapter four</p>
+        <h2>Our Constellation ✨</h2>
+        <p class="sub" style="margin-bottom:6px">Connect the stars in order and see what the sky wrote for you.</p>
+        <svg id="sky" viewBox="0 0 300 270"></svg>
+        <p class="hud" id="starMsg">Tap star 1</p>
+        <button class="btn hidden" id="toWish" onclick="go('s6')">Make a Wish 🎂</button>
+    </section>
+
+    <!-- 6 : Cake -->
+    <section class="screen" id="s6">
+        <p class="eyebrow">Chapter five</p>
+        <h2>Make a Wish 🌟</h2>
+        <p class="sub" id="cakeHint">Close your eyes, think of your biggest wish, then blow out the candles.</p>
+        <div class="cakeWrap" id="cakeWrap">
+            <div class="candles">
+                <div class="candle"><div class="flame"></div></div><div class="candle"><div class="flame"></div></div><div class="candle"><div class="flame"></div></div>
+            </div>
+            <div class="layer l3"></div><div class="layer l2"></div><div class="layer l1"></div><div class="plate"></div>
+        </div>
+        <button class="btn" id="blowBtn" onclick="blowCandles()">💨 Blow the Candles</button>
+        <button class="ghost" id="micBtn" onclick="enableMic()">🎤 Or blow into your microphone</button>
+    </section>
+
+    <!-- 7 : Finale -->
+    <section class="screen" id="s7">
+        <p class="eyebrow">The final chapter</p>
+        <h2 style="margin-bottom:14px">A Letter For You 💌</h2>
+        <div class="letter"><span id="letterText"></span><span class="cursor" id="cur"></span><div class="sign hidden" id="signText"></div></div>
+        <ul class="reasons" id="reasons"></ul>
+
+        <div class="photoWrap hidden" id="photoWrap">
+            <div class="frame">
+                <div class="imgBox">
+                    <img id="finalImg" alt="Us" class="hidden">
+                    <div class="pick hidden" id="pick"><b style="font-size:4.5rem">💖</b></div>
+                </div>
+                <div class="photoCap" id="photoCap"></div>
+            </div>
+        </div>
+
+        <div class="bigLove hidden" id="bigLove"></div>
+        <button class="btn hidden" id="againBtn" onclick="location.reload()">Replay 🔁</button>
+    </section>
+
+    <script>
+        /* ==========================================================
+           ✏️  EDIT ONLY THIS PART TO MAKE IT YOURS
+           ========================================================== */
+        const CONFIG = {
+            name: "My Love",
+            from: "Your Name",
+            startDate: "2023-02-14",          // YYYY-MM-DD  (set "" to hide counter)
+            goal: 12,
+
+            memories: [
+                { date: "The beginning", title: "The Day We Met", text: "I was so nervous, but that day my life changed forever.", photo: "" },
+                { date: "First date", title: "Our First Date", text: "Time flew by. I never wanted that evening to end.", photo: "" },
+                { date: "Always", title: "Our Silly Moments", text: "Your laughter is my favourite sound in the whole world.", photo: "" },
+                { date: "Our place", title: "Our Favourite Place", text: "Every place feels like home when I'm with you.", photo: "" },
+                { date: "When it mattered", title: "You Were There For Me", text: "You held my hand when I needed it most. Thank you.", photo: "" },
+                { date: "Tomorrow", title: "Our Future", text: "I can't wait to build a thousand more memories with you.", photo: "" }
+            ],
+
+            letter:
+                "Happy Birthday, my dearest love! 🎉\n\n" +
+                "You are the best thing that ever happened to me. Your smile makes my hardest days easy, and your love makes my best days magical.\n\n" +
+                "On your special day, I wish you endless happiness, every dream come true, and a lifetime of laughter — with me right beside you.\n\n" +
+                "I love you more than words can say. Today, tomorrow, and always. ❤️",
+            sign: "Forever yours,",
+
+            reasons: [
+                "Your smile lights up my whole world ✨",
+                "You make every ordinary day feel special 🌷",
+                "You understand me without me saying a word 💞",
+                "With you, I'm the happiest version of myself 🥰",
+                "You're my best friend and my greatest love 💖"
+            ],
+
+            finalPhoto: "assets/Profile.jpeg", // 👈 photo path (relative to this page)
+            finalCaption: "Me & You, Forever 💕",
+            finalLine: "I Love You Forever 💕",
+
+            music: ""   // optional: your own song, e.g. "assets/song.mp3". Leave "" to use the built-in romantic music.
+        };
+        /* ========================================================== */
+
+        const $ = id => document.getElementById(id);
+        const SCREENS = ['s1', 's2', 's3', 's4', 's5', 's6', 's7'];
+        document.title = "Happy Birthday " + CONFIG.name + " 💖";
+
+        /* ---------- progress + transitions ---------- */
+        SCREENS.forEach(() => { $('steps').appendChild(document.createElement('i')); });
+        function setStep(id) {
+            const idx = SCREENS.indexOf(id);
+            [...$('steps').children].forEach((d, k) => { d.className = k < idx ? 'on' : (k === idx ? 'cur' : ''); });
+        }
+        setStep('s1');
+        let busy = false;
+        function go(id) {
+            if (busy) return; busy = true;
+            $('veil').classList.add('on');
+            setTimeout(() => {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                $(id).classList.add('active'); window.scrollTo(0, 0); setStep(id);
+                $('veil').classList.remove('on'); busy = false;
+                if (id === 's5') buildSky();
+                if (id === 's7') startFinale();
+            }, 340);
+        }
+
+        /* ---------- atmosphere ---------- */
+        for (let i = 0; i < 38; i++) {
+            const s = document.createElement('div'); s.className = 'star';
+            s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%';
+            s.style.animationDelay = (Math.random() * 4) + 's'; $('stars').appendChild(s);
+        }
+        setInterval(() => {
+            if (document.hidden) return;
+            const s = document.createElement('div'); s.className = 'shoot';
+            s.style.left = (Math.random() * 55) + '%'; s.style.top = (Math.random() * 35) + '%';
+            $('stars').appendChild(s); setTimeout(() => s.remove(), 1400);
+        }, 5200);
+        const floatEmo = ['💖', '💗', '💕', '🌸', '✨'];
+        let flCount = 0;
+        setInterval(() => {
+            if (document.hidden || flCount >= 9) return;
+            flCount++;
+            const h = document.createElement('div'); h.className = 'fl';
+            h.textContent = floatEmo[Math.floor(Math.random() * floatEmo.length)];
+            h.style.left = Math.random() * 100 + 'vw'; h.style.fontSize = (16 + Math.random() * 18) + 'px';
+            const d = 9 + Math.random() * 5; h.style.animationDuration = d + 's';
+            $('floaters').appendChild(h);
+            setTimeout(() => { h.remove(); flCount-- }, d * 1000 + 200);
+        }, 1200);
+        let lastSpark = 0;
+        function spark(x, y) {
+            const n = Date.now(); if (n - lastSpark < 90) return; lastSpark = n;
+            const t = document.createElement('div'); t.className = 'spark'; t.textContent = '✨';
+            t.style.left = x + 'px'; t.style.top = y + 'px'; document.body.appendChild(t); setTimeout(() => t.remove(), 900);
+        }
+        addEventListener('mousemove', e => spark(e.clientX, e.clientY));
+        addEventListener('touchmove', e => { const t = e.touches[0]; spark(t.clientX, t.clientY) }, { passive: true });
+
+        /* ==========================================================
+           MUSIC ENGINE  (built-in romantic score + music-box birthday tune)
+           ========================================================== */
+        const Mus = { ctx: null, bus: null, master: null, timer: null, step: 0, nextT: 0, playing: false };
+        let musicEnabled = false, fileAudio = null, usingFile = false;
+        const midi = n => 440 * Math.pow(2, (n - 69) / 12);
+        function ensureCtx() {
+            if (Mus.ctx) return;
+            const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+            const c = Mus.ctx = new AC();
+            Mus.master = c.createGain(); Mus.master.gain.value = 0;
+            const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200;
+            const len = Math.floor(c.sampleRate * 2.6), ir = c.createBuffer(2, len, c.sampleRate);
+            for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
+            const conv = c.createConvolver(); conv.buffer = ir;
+            const wet = c.createGain(); wet.gain.value = .38; const dry = c.createGain(); dry.gain.value = .9;
+            Mus.bus = c.createGain();
+            Mus.bus.connect(dry); Mus.bus.connect(conv); conv.connect(wet);
+            dry.connect(lp); wet.connect(lp); lp.connect(Mus.master); Mus.master.connect(c.destination);
+        }
+        function tone(f, t, dur, type, vol, att, rel) {
+            const c = Mus.ctx, o = c.createOscillator(), g = c.createGain();
+            o.type = type; o.frequency.value = f;
+            g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + att);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + dur + rel);
+            o.connect(g); g.connect(Mus.bus); o.start(t); o.stop(t + dur + rel + .05);
+        }
+        const pluck = (f, t, v) => { tone(f, t, .45, 'triangle', v, .01, .9); tone(f * 2, t, .25, 'sine', v * .35, .005, .5); };
+        const bell = (f, t, v) => { tone(f, t, .25, 'sine', v, .004, 1.7); tone(f * 2.76, t, .12, 'sine', v * .16, .003, .7); };
+        const pad = (fs, t, d, v) => fs.forEach(f => { tone(f, t, d, 'sine', v, d * .4, d * .5); tone(f * 1.004, t, d, 'triangle', v * .5, d * .4, d * .5); });
+
+        const EIGHTH = 60 / 68 / 2;
+        const CHORDS = [{ b: 45, n: [57, 60, 64, 69] }, { b: 41, n: [53, 57, 60, 65] }, { b: 48, n: [60, 64, 67, 72] }, { b: 43, n: [59, 62, 67, 71] }];
+        const PAT = [0, 1, 2, 3, 2, 1, 2, 1];
+        function schedule() {
+            const c = Mus.ctx; if (!c) return;
+            while (Mus.nextT < c.currentTime + .6) {
+                const s = Mus.step % 8, bar = Math.floor(Mus.step / 8) % 4, ch = CHORDS[bar], t = Mus.nextT;
+                if (s === 0) { tone(midi(ch.b), t, EIGHTH * 7, 'sine', .2, .02, .7); pad(ch.n.slice(0, 3).map(midi), t, EIGHTH * 8, .032); }
+                pluck(midi(ch.n[PAT[s]]), t, .085);
+                if ((s === 3 || s === 6) && Math.random() < .55) bell(midi(ch.n[Math.floor(Math.random() * 4)] + 12), t + EIGHTH * .5, .04);
+                Mus.step++; Mus.nextT += EIGHTH;
+            }
+        }
+        function startSynth() {
+            ensureCtx(); if (!Mus.ctx) return;
+            Mus.ctx.resume();
+            if (!Mus.playing) { Mus.playing = true; Mus.step = 0; Mus.nextT = Mus.ctx.currentTime + .15; Mus.timer = setInterval(schedule, 150); }
+            Mus.master.gain.cancelScheduledValues(Mus.ctx.currentTime);
+            Mus.master.gain.setTargetAtTime(.6, Mus.ctx.currentTime, .9);
+        }
+        function stopSynth() {
+            if (!Mus.ctx || !Mus.playing) return;
+            Mus.master.gain.setTargetAtTime(0, Mus.ctx.currentTime, .25);
+            clearInterval(Mus.timer); Mus.playing = false;
+        }
+        function startMusic() {
+            musicEnabled = true; $('musicBtn').classList.remove('off');
+            if (CONFIG.music) {
+                if (!fileAudio) {
+                    fileAudio = new Audio(CONFIG.music); fileAudio.loop = true; fileAudio.volume = .65;
+                    fileAudio.onerror = () => { usingFile = false; if (musicEnabled) startSynth(); };
+                }
+                usingFile = true;
+                fileAudio.play().catch(() => { usingFile = false; if (musicEnabled) startSynth(); });
+            } else startSynth();
+        }
+        function stopMusic() {
+            musicEnabled = false; $('musicBtn').classList.add('off');
+            if (fileAudio) fileAudio.pause();
+            stopSynth();
+        }
+        $('musicBtn').addEventListener('click', () => musicEnabled ? stopMusic() : startMusic());
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) { if (fileAudio) fileAudio.pause(); if (Mus.ctx) Mus.ctx.suspend(); }
+            else if (musicEnabled) { if (usingFile && fileAudio) fileAudio.play().catch(() => { }); if (Mus.ctx) Mus.ctx.resume(); }
+        });
+        /* music-box "Happy Birthday" melody */
+        const BDAY = [[67, .75], [67, .25], [69, 1], [67, 1], [72, 1], [71, 2], [67, .75], [67, .25], [69, 1], [67, 1], [74, 1], [72, 2],
+        [67, .75], [67, .25], [79, 1], [76, 1], [72, 1], [71, 1], [69, 2], [77, .75], [77, .25], [76, 1], [72, 1], [74, 1], [72, 2]];
+        function playBirthday() {
+            if (!musicEnabled) return;
+            ensureCtx(); if (!Mus.ctx) return;
+            const c = Mus.ctx; c.resume();
+            if (!Mus.playing) { Mus.master.gain.setTargetAtTime(.6, c.currentTime, .2); }
+            let t = c.currentTime + .25; const beat = .44, start = t;
+            BDAY.forEach(([m, b]) => { bell(midi(m), t, .16); bell(midi(m - 12), t, .05); t += b * beat; });
+            if (Mus.playing) {
+                Mus.master.gain.setTargetAtTime(.3, c.currentTime, .3);
+                Mus.master.gain.setTargetAtTime(.6, t + .5, .8);
+            } else setTimeout(() => { if (!Mus.playing) Mus.master.gain.setTargetAtTime(0, c.currentTime, .5); }, (t - start + 2.5) * 1000);
+        }
+
+        /* ==========================================================
+           SCREEN 1 – envelope
+           ========================================================== */
+        $('nameSpot').textContent = CONFIG.name + " 💝";
+        "HAPPY BIRTHDAY".split('').forEach((ch, i) => {
+            const sp = document.createElement('span'); sp.textContent = ch === ' ' ? ' ' : ch;
+            sp.style.animationDelay = (i * 0.1) + 's'; $('bday').appendChild(sp);
+        });
+        $('paperTxt').textContent = "For " + CONFIG.name + " 💕";
+        $('env').addEventListener('click', () => {
+            if ($('env').classList.contains('open')) return;
+            $('env').classList.add('open'); $('tapHint').classList.add('hidden');
+            fireworks(3); startMusic();
+            setTimeout(() => { $('env').classList.add('hidden'); $('introBox').classList.remove('hidden'); $('introBox').style.animation = 'enter .9s both'; }, 1800);
+        });
+        if (CONFIG.startDate) {
+            $('counter').classList.remove('hidden');
+            $('counterTxt').textContent = "…and every second with you has been a gift 💞";
+            const start = new Date(CONFIG.startDate + "T00:00:00");
+            const tick = () => {
+                const d = Math.max(0, Math.floor((Date.now() - start) / 1000));
+                $('cD').textContent = Math.floor(d / 86400); $('cH').textContent = Math.floor(d % 86400 / 3600);
+                $('cM').textContent = Math.floor(d % 3600 / 60); $('cS').textContent = d % 60;
+            };
+            tick(); setInterval(tick, 1000);
+        } else $('counterTxt').textContent = "Today is all about you, my love 💞";
+
+        /* ---------- SCREEN 2 – memories ---------- */
+        let openedCount = 0;
+        $('totalMem').textContent = CONFIG.memories.length;
+        CONFIG.memories.forEach((m, i) => {
+            const c = document.createElement('div'); c.className = 'card';
+            const emo = ['💑', '🌹', '😂', '🏡', '🤗', '🌈', '🎶', '🍫'][i % 8];
+            c.innerHTML = `<div class="inner">
+        <div class="face front"><div class="pic">${m.photo ? `<img src="${m.photo}" alt="" loading="lazy">` : emo}</div><div class="cap">${m.date || ('Memory ' + (i + 1))}</div></div>
+        <div class="face back"><h3>${m.title}</h3><div>${m.text}</div></div></div>`;
+            c.addEventListener('click', e => {
+                if (c.classList.contains('flipped')) return;
+                c.classList.add('flipped'); openedCount++; $('opened').textContent = openedCount;
+                puff(e.clientX, e.clientY);
+                if (openedCount === CONFIG.memories.length) { $('toGame').disabled = false; fireworks(2); }
+            });
+            $('memGrid').appendChild(c);
+        });
+
+        /* ---------- SCREEN 3 – catch hearts ---------- */
+        let score = 0, gameTimer = null;
+        $('goalTxt').textContent = CONFIG.goal + " hearts";
+        function startGame() {
+            score = 0; $('score').textContent = 0; $('barFill').style.width = '0'; $('gameArea').innerHTML = '';
+            clearInterval(gameTimer); gameTimer = setInterval(spawn, 750);
+        }
+        function spawn() {
+            const area = $('gameArea'); if (area.children.length > 9) return;
+            const f = document.createElement('div'); f.className = 'faller';
+            const good = Math.random() > 0.2;
+            f.textContent = good ? ['❤️', '💖', '💘', '💗'][Math.floor(Math.random() * 4)] : '💔';
+            f.style.left = Math.random() * (Math.max(60, area.clientWidth) - 50) + 'px';
+            f.style.animationDuration = (2.8 + Math.random() * 1.8) + 's';
+            f.addEventListener('pointerdown', e => {
+                e.preventDefault(); if (f.classList.contains('pop')) return;
+                f.classList.add('pop');
+                if (good) { score++; puff(e.clientX, e.clientY) } else score = Math.max(0, score - 1);
+                $('score').textContent = score; $('barFill').style.width = Math.min(100, score / CONFIG.goal * 100) + '%';
+                setTimeout(() => f.remove(), 320);
+                if (score >= CONFIG.goal) winCatch();
+            });
+            area.appendChild(f); setTimeout(() => f.remove(), 5000);
+        }
+        function winCatch() {
+            clearInterval(gameTimer);
+            $('gameArea').innerHTML = '<div class="script" style="padding-top:24%;font-size:2.4rem">You caught my heart! 💖<br><small style="font-size:1.2rem;font-family:Poppins;opacity:.8">(you already had it anyway)</small></div>';
+            $('toMatch').classList.remove('hidden'); fireworks(3);
+        }
+
+        /* ---------- SCREEN 4 – match pairs ---------- */
+        let first = null, lock = false, moves = 0, matched = 0;
+        function startMatch() {
+            const sym = ['💖', '🌹', '🎂', '🧸', '🍫', '💍', '🌙', '🎁'];
+            const deck = [...sym, ...sym].sort(() => Math.random() - .5);
+            const g = $('mgrid'); g.innerHTML = ''; moves = 0; matched = 0; first = null; lock = false; $('moves').textContent = 0;
+            deck.forEach(s => {
+                const c = document.createElement('div'); c.className = 'mcard'; c.dataset.s = s;
+                c.innerHTML = `<div class="in"><div class="mf top">❓</div><div class="mf bot">${s}</div></div>`;
+                c.addEventListener('click', () => {
+                    if (lock || c.classList.contains('up')) return;
+                    c.classList.add('up');
+                    if (!first) { first = c; return }
+                    moves++; $('moves').textContent = moves; lock = true;
+                    if (first.dataset.s === c.dataset.s) {
+                        first.classList.add('done'); c.classList.add('done'); matched++;
+                        const r = c.getBoundingClientRect(); puff(r.left + r.width / 2, r.top + r.height / 2);
+                        first = null; lock = false;
+                        if (matched === sym.length) { $('toStars').classList.remove('hidden'); fireworks(3); }
+                    } else {
+                        const a = first; first = null;
+                        setTimeout(() => { a.classList.remove('up'); c.classList.remove('up'); lock = false }, 750);
+                    }
+                });
+                g.appendChild(c);
+            });
+        }
+
+        /* ---------- SCREEN 5 – heart constellation ---------- */
+        const NS = 'http://www.w3.org/2000/svg';
+        function el(tag, attrs, parent) {
+            const e = document.createElementNS(NS, tag);
+            for (const k in attrs) e.setAttribute(k, attrs[k]);
+            if (parent) parent.appendChild(e); return e;
+        }
+        function buildSky() {
+            const svg = $('sky'); svg.innerHTML = ''; $('toWish').classList.add('hidden');
+            const N = 12, pts = [];
+            for (let i = 0; i < N; i++) {
+                const t = Math.PI + i / N * Math.PI * 2;
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+                pts.push([150 + x * 7.6, 120 - y * 7.4]);
+            }
+            for (let i = 0; i < 34; i++) el('circle', { class: 'bgstar', cx: Math.random() * 300, cy: Math.random() * 270, r: Math.random() * 1.1 + .3 }, svg);
+            const heartFill = el('polygon', { class: 'fillHeart', points: pts.map(p => p.join(',')).join(' ') }, svg);
+            const lines = el('g', {}, svg), stars = el('g', {}, svg);
+            let next = 0;
+            const msg = $('starMsg'); msg.textContent = 'Tap star 1';
+            const groups = pts.map((p, i) => {
+                const g = el('g', { class: 'st' }, stars);
+                el('circle', { class: 'ring', cx: p[0], cy: p[1], r: 10 }, g);
+                el('circle', { class: 'core', cx: p[0], cy: p[1], r: 8 }, g);
+                const tx = el('text', { class: 'num', x: p[0], y: p[1] }, g); tx.textContent = i + 1;
+                el('circle', { cx: p[0], cy: p[1], r: 19, fill: 'transparent' }, g);
+                g.addEventListener('pointerdown', e => {
+                    e.preventDefault();
+                    if (i !== next) { svg.classList.remove('shake'); void svg.getBoundingClientRect(); svg.classList.add('shake'); msg.textContent = 'Try star ' + (next + 1) + ' 😉'; return; }
+                    g.classList.remove('next'); g.classList.add('done');
+                    const r = g.getBoundingClientRect(); puff(r.left + r.width / 2, r.top + r.height / 2);
+                    if (i > 0) drawLine(pts[i - 1], pts[i]);
+                    next++;
+                    if (next < N) { groups[next].classList.add('next'); msg.textContent = 'Now star ' + (next + 1); }
+                    else { drawLine(pts[N - 1], pts[0]); finishSky(heartFill); }
+                });
+                return g;
+            });
+            groups[0].classList.add('next');
+            function drawLine(a, b) {
+                const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+                const ln = el('line', { class: 'ln', x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'stroke-dasharray': L, 'stroke-dashoffset': L }, lines);
+                requestAnimationFrame(() => requestAnimationFrame(() => { ln.style.strokeDashoffset = 0; }));
+            }
+            function finishSky(fill) {
+                setTimeout(() => fill.classList.add('on'), 450);
+                msg.innerHTML = '<span class="script gold" style="font-size:1.7rem">Our stars aligned ✨</span>';
+                fireworks(4);
+                setTimeout(() => $('toWish').classList.remove('hidden'), 900);
+            }
+        }
+
+        /* ---------- SCREEN 6 – cake & wish ---------- */
+        let blown = false, micStream = null, micRAF = 0;
+        function blowCandles() {
+            if (blown) return; blown = true;
+            cancelAnimationFrame(micRAF);
+            if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+            document.querySelectorAll('.candle').forEach(c => {
+                c.querySelector('.flame').classList.add('off');
+                const s = document.createElement('span'); s.className = 'smoke'; c.appendChild(s);
+            });
+            $('cakeWrap').classList.add('out');
+            $('blowBtn').classList.add('hidden'); $('micBtn').classList.add('hidden');
+            $('cakeHint').textContent = "Your wish is on its way to the stars… 🌠";
+            playBirthday(); fireworks(6); balloons(10);
+            setTimeout(() => go('s7'), 4200);
+        }
+        async function enableMic() {
+            const b = $('micBtn');
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const AC = window.AudioContext || window.webkitAudioContext, ac = new AC();
+                const src = ac.createMediaStreamSource(micStream), an = ac.createAnalyser();
+                an.fftSize = 512; src.connect(an);
+                const buf = new Uint8Array(an.fftSize); let loud = 0;
+                b.textContent = '🎤 Listening… blow gently into your mic';
+                const chk = () => {
+                    if (blown) return;
+                    an.getByteTimeDomainData(buf);
+                    let sum = 0; for (let i = 0; i < buf.length; i++) { const d = (buf[i] - 128) / 128; sum += d * d; }
+                    const rms = Math.sqrt(sum / buf.length);
+                    loud = rms > 0.12 ? loud + 1 : Math.max(0, loud - 1);
+                    if (loud > 8) { blowCandles(); return; }
+                    micRAF = requestAnimationFrame(chk);
+                };
+                chk();
+            } catch (e) { b.textContent = 'Microphone not available — just tap the button above'; }
+        }
+        function balloons(n) {
+            const cols = ['#ff5c9d', '#e6c27a', '#6ee7b7', '#7dd3fc', '#c084fc', '#ff8a65'];
+            for (let i = 0; i < n; i++) {
+                const b = document.createElement('div'); b.className = 'balloon';
+                b.style.left = Math.random() * 92 + 'vw'; b.style.background = cols[i % cols.length];
+                const d = 5 + Math.random() * 3; b.style.animationDuration = d + 's'; b.style.animationDelay = (Math.random()) + 's';
+                document.body.appendChild(b); setTimeout(() => b.remove(), (d + 1.6) * 1000);
+            }
+        }
+
+        /* ---------- SCREEN 7 – finale ---------- */
+        let finaleStarted = false;
+        function startFinale() {
+            if (finaleStarted) return; finaleStarted = true;
+            fireworks(4);
+            const txt = CONFIG.letter; let i = 0; const out = $('letterText');
+            const type = () => {
+                if (i < txt.length) {
+                    const ch = txt[i++];
+                    out.appendChild(ch === '\n' ? document.createElement('br') : document.createTextNode(ch));
+                    setTimeout(type, ch === '\n' ? 220 : 32);
+                } else {
+                    $('cur').classList.add('hidden');
+                    $('signText').textContent = CONFIG.sign + " " + CONFIG.from + " 💞"; $('signText').classList.remove('hidden');
+                    fireworks(3); showReasons();
+                }
+            };
+            setTimeout(type, 600);
+        }
+        function showReasons() {
+            CONFIG.reasons.forEach((r, k) => {
+                const li = document.createElement('li'); li.textContent = r; li.style.animationDelay = (k * 0.8) + 's'; $('reasons').appendChild(li);
+            });
+            setTimeout(showPhoto, CONFIG.reasons.length * 800 + 600);
+        }
+        function showPhoto() {
+            $('photoCap').textContent = CONFIG.finalCaption;
+            const img = $('finalImg'), pick = $('pick');
+            const base = CONFIG.finalPhoto || 'assets/Profile.jpeg';
+            const dir = base.includes('/') ? base.slice(0, base.lastIndexOf('/') + 1) : '';
+            const tries = base.startsWith('data:') ? [base] : [
+                base, './' + base, '/' + base, '../' + base,
+                dir + 'Profile.jpg', dir + 'profile.jpeg', dir + 'profile.jpg', dir + 'Profile.JPG', dir + 'Profile.png',
+                'Profile.jpeg'
+            ];
+            let n = 0;
+            img.onload = () => { img.classList.remove('hidden'); pick.classList.add('hidden') };
+            img.onerror = () => {
+                n++;
+                if (n < tries.length) { img.src = tries[n]; }
+                else { console.warn('Photo not found. Tried:', tries); img.classList.add('hidden'); pick.classList.remove('hidden'); }
+            };
+            img.src = tries[0];
+            $('photoWrap').classList.remove('hidden');
+            fireworks(2);
+            $('photoWrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                $('bigLove').textContent = CONFIG.finalLine; $('bigLove').classList.remove('hidden');
+                $('againBtn').classList.remove('hidden');
+                setInterval(() => { if (!document.hidden) fireworks(1) }, 4500);
+            }, 1500);
+        }
+
+        /* ==========================================================
+           FIREWORKS / PARTICLES  (single canvas, trail effect)
+           ========================================================== */
+        const cv = $('fx'), ctx = cv.getContext('2d');
+        function rs() { cv.width = innerWidth; cv.height = innerHeight } rs(); addEventListener('resize', rs);
+        let parts = [], fxRun = false, idle = 0;
+        function burst(x, y, n, cols, speed, heart) {
+            if (parts.length > 300) return;
+            for (let i = 0; i < n; i++) {
+                const a = Math.random() * 6.283, v = Math.random() * speed + 1.2;
+                parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: cols[(Math.random() * cols.length) | 0], l: 60 + Math.random() * 30, m: 90, s: 1.5 + Math.random() * 2, h: heart });
+            }
+            if (!fxRun) { fxRun = true; idle = 0; requestAnimationFrame(loop) }
+        }
+        function fireworks(times) {
+            const sets = [['#ff5c9d', '#f4a6c0', '#fff'], ['#e6c27a', '#fff3c4', '#fff'], ['#7dd3fc', '#c084fc', '#fff'], ['#ff8a65', '#ffd166', '#fff']];
+            for (let t = 0; t < times; t++) setTimeout(() => burst(innerWidth * (.15 + Math.random() * .7), innerHeight * (.12 + Math.random() * .38), 42, sets[(Math.random() * 4) | 0], 6.8, false), t * 380);
+        }
+        function puff(x, y) { burst(x, y, 8, ['#ff5c9d', '#f4a6c0', '#e6c27a'], 3.5, true); }
+        function heartPath(x, y, s) {
+            ctx.beginPath(); ctx.moveTo(x, y + s * .35);
+            ctx.bezierCurveTo(x - s, y - s * .3, x - s * .5, y - s * 1.1, x, y - s * .45);
+            ctx.bezierCurveTo(x + s * .5, y - s * 1.1, x + s, y - s * .3, x, y + s * .35); ctx.fill();
+        }
+        function loop() {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0,0,0,.24)'; ctx.fillRect(0, 0, cv.width, cv.height);
+            ctx.globalCompositeOperation = 'source-over';
+            for (const p of parts) {
+                p.x += p.vx; p.y += p.vy; p.vy += .06; p.vx *= .985; p.vy *= .992; p.l--;
+                ctx.globalAlpha = Math.max(0, p.l / p.m); ctx.fillStyle = p.c;
+                if (p.h) heartPath(p.x, p.y, p.s * 3); else { ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, 6.283); ctx.fill(); }
+            }
+            ctx.globalAlpha = 1; parts = parts.filter(p => p.l > 0);
+            if (parts.length) idle = 0; else idle++;
+            if (idle < 30) requestAnimationFrame(loop); else { fxRun = false; ctx.clearRect(0, 0, cv.width, cv.height); }
+        }
+    </script>
+</body>
+</html>
